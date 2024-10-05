@@ -35,7 +35,7 @@ public class CountryController {
         return countryService.getCountryWithMostBorders();
     }
 
-    @PostMapping
+    @PostMapping("api/countries")
     public List<Country> saveCountries(@RequestBody CountryRequest countryRequest) {
         return countryService.saveCountries(countryRequest.getAmountOfCountryToSave());
     }

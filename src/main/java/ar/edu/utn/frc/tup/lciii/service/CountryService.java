@@ -84,10 +84,11 @@ public class CountryService {
         public List<Country> saveCountries(int amount) {
                 String url = "https://restcountries.com/v3.1/all";
                 List<Map<String, Object>> response = restTemplate.getForObject(url, List.class);
-                return response.stream()
-                        .limit(amount)
-                        .map(this::mapToCountry)
-                        .collect(Collectors.toList());
+                List<Country> countriesToSave = new ArrayList<>();
+                for (Map<String, Object> countryData : response.stream().limit(amount).collect(Collectors.toList())) {
+                        countriesToSave.add(mapToCountry(countryData));
+                }
+                return countryRepository.saveAll(countriesToSave);
         }
         public List<Country> getCountriesByContinent(String continent) {
                 String url = "https://restcountries.com/v3.1/all";
