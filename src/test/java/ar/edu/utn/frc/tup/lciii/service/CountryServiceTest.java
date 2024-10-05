@@ -61,6 +61,7 @@ public class CountryServiceTest {
 
     @Test
     public void testGetByName() {
+        when(restTemplate.getForObject(anyString(), (Class<List>) any())).thenReturn(mockResponse);
         List<Country> countries = countryService.GetByName("USA");
         assertNotNull(countries);
         assertEquals(1, countries.size());
@@ -69,6 +70,7 @@ public class CountryServiceTest {
 
     @Test
     public void testGetCountriesByLanguage() {
+        when(restTemplate.getForObject(anyString(), (Class<List>) any())).thenReturn(mockResponse);
         List<Country> countries = countryService.getCountriesByLanguage("Spanish");
         assertNotNull(countries);
         assertFalse(countries.isEmpty());
@@ -77,6 +79,7 @@ public class CountryServiceTest {
 
     @Test
     public void testGetCountryWithMostBorders() {
+        when(restTemplate.getForObject(anyString(), (Class<List>) any())).thenReturn(mockResponse);
         Country country = countryService.getCountryWithMostBorders();
         assertNotNull(country);
         assertNotNull(country.getBorders());
@@ -84,6 +87,7 @@ public class CountryServiceTest {
 
     @Test
     public void testSaveCountries() {
+        when(restTemplate.getForObject(anyString(), (Class<List>) any())).thenReturn(mockResponse);
         List<Country> countries = countryService.saveCountries(2);
         assertNotNull(countries);
         assertEquals(2, countries.size());

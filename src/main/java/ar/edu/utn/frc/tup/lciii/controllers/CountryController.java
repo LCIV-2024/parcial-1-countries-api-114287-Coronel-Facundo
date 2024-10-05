@@ -20,7 +20,7 @@ public class CountryController {
                                          @RequestParam(required = false) String code) {
         return countryService.getAllCountries(name, code);
     }
-    @GetMapping("api/countries/continent/{continentName}")
+    @GetMapping("api/countries/{continentName}/continent")
     public List<Country> getCountriesByContinent(@PathVariable String continentName) {
         return countryService.getCountriesByContinent(continentName);
     }

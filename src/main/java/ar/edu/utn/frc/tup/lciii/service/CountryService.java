@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,14 +64,21 @@ public class CountryService {
         public Country getCountryWithMostBorders() {
                 String url = "https://restcountries.com/v3.1/all";
                 List<Map<String, Object>> response = restTemplate.getForObject(url, List.class);
-                return response.stream()
-                        .max((country1, country2) -> {
-                                List<String> borders1 = (List<String>) country1.get("borders");
-                                List<String> borders2 = (List<String>) country2.get("borders");
-                                return Integer.compare(borders1.size(), borders2.size());
-                        })
-                        .map(this::mapToCountry)
-                        .orElse(null);
+
+                Country countryWithMostBorders = null;
+                int maxBorders = 0;
+
+                for (Map<String, Object> country : response) {
+                        List<String> borders = (List<String>) country.get("borders");
+                        int bordersCount = borders != null ? borders.size() : 0;
+
+                        if (bordersCount > maxBorders) {
+                                maxBorders = bordersCount;
+                                countryWithMostBorders = mapToCountry(country);
+                        }
+                }
+
+                return countryWithMostBorders;
         }
 
         public List<Country> saveCountries(int amount) {
@@ -87,11 +93,16 @@ public class CountryService {
                 String url = "https://restcountries.com/v3.1/all";
                 List<Map<String, Object>> response = restTemplate.getForObject(url, List.class);
 
-                return response.stream()
-                        .filter(country -> country.get("region") != null &&
-                                country.get("region").toString().equalsIgnoreCase(continent))
-                        .map(this::mapToCountry)
-                        .collect(Collectors.toList());
+                List<Country> countries = new ArrayList<>();
+
+                for (Map<String, Object> country : response) {
+                        String region = (String) country.get("region");
+                        if (region != null && region.equalsIgnoreCase(continent)) {
+                                countries.add(mapToCountry(country));
+                        }
+                }
+
+                return countries;
         }
 
         /**
