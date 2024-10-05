@@ -1,12 +1,14 @@
 package ar.edu.utn.frc.tup.lciii.service;
 
 import ar.edu.utn.frc.tup.lciii.model.Country;
+import ar.edu.utn.frc.tup.lciii.repository.CountryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -23,6 +25,12 @@ public class CountryServiceTest {
 
     @Autowired
     private CountryService countryService2;
+
+    @MockBean
+    private CountryRepository countryRepository;
+
+    @MockBean
+    private CountryService countryRepository3;
 
     @Mock
     private RestTemplate restTemplate;
@@ -94,8 +102,7 @@ public class CountryServiceTest {
 
     @Test
     public void testSaveCountries() {
-//        when(restTemplate.getForObject(anyString(), (Class<List>) any())).thenReturn(mockResponse);
-        countryService2 = new CountryService(null, new RestTemplate());
+        countryService2 = new CountryService(countryRepository, new RestTemplate());
         List<Country> countries = countryService2.saveCountries(2);
         assertNotNull(countries);
         assertEquals(2, countries.size());
