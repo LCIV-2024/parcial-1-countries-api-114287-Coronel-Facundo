@@ -1,4 +1,5 @@
 package ar.edu.utn.frc.tup.lciii.controllers;
+import ar.edu.utn.frc.tup.lciii.dtos.common.CountryRequest;
 import ar.edu.utn.frc.tup.lciii.model.Country;
 import ar.edu.utn.frc.tup.lciii.service.CountryService;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +20,23 @@ public class CountryController {
                                          @RequestParam(required = false) String code) {
         return countryService.getAllCountries(name, code);
     }
-    @GetMapping("/continent/{continentName}")
+    @GetMapping("api/countries/continent/{continentName}")
     public List<Country> getCountriesByContinent(@PathVariable String continentName) {
         return countryService.getCountriesByContinent(continentName);
     }
 
-    @GetMapping("/{language}/language")
+    @GetMapping("api/countries/{language}/language")
     public List<Country> getCountriesByLanguage(@PathVariable String language) {
         return countryService.getCountriesByLanguage(language);
     }
 
-    @GetMapping("/most-borders")
+    @GetMapping("api/countries/most-borders")
     public Country getCountryWithMostBorders() {
         return countryService.getCountryWithMostBorders();
+    }
+
+    @PostMapping
+    public List<Country> saveCountries(@RequestBody CountryRequest countryRequest) {
+        return countryService.saveCountries(countryRequest.getAmount());
     }
 }
