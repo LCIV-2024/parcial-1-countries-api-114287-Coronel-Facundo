@@ -37,6 +37,6 @@ public class CountryController {
 
     @PostMapping
     public List<Country> saveCountries(@RequestBody CountryRequest countryRequest) {
-        return countryService.saveCountries(countryRequest.getAmount());
+        return countryService.saveCountries(countryRequest.getAmountOfCountryToSave());
     }
 }

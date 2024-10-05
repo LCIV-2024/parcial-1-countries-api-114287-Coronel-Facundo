@@ -10,5 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CountryRequest {
-    int amount;
+    int amountOfCountryToSave;
 }
