@@ -102,8 +102,7 @@ public class CountryServiceTest {
 
     @Test
     public void testSaveCountries() {
-        countryService2 = new CountryService(countryRepository, new RestTemplate());
-        List<Country> countries = countryService2.saveCountries(2);
+        List<Country> countries = countryService.saveCountries(2);
         assertNotNull(countries);
         assertEquals(2, countries.size());
     }
